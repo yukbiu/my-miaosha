@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/miaosha?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: admin
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      max-lifetime: 60000
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+      shutdown-timeout: 100ms
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+#    listener:
+#      type: simple
+#      simple:
+#        acknowledge-mode: manual  # 消息消费确认，可以手动确认
+#        prefetch: 1   # 消费者每次从队列获取的消息数量
+#        concurrency: 1    # 消费者数量
+#        max-concurrency: 1    # 启动消费者最大数量
+mybatis:
+  configuration:
+  # 开启驼峰命名规则
+    map-underscore-to-camel-case: true
+  # 开启懒加载
+    lazy-loading-enabled: true
+  # 实体类包（开启类别名）--省去写全类名的麻烦
+  type-aliases-package: com.zhbit.miaosha.model.entity
+  # mapper映射文件的路径
+  mapper-locations: mapper/**/*Mapper.xml
+
+logging:
+  level:
+    com.zhbit.miaosha: debug
+

@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/miaosha?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: admin
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      max-lifetime: 60000
+mybatis:
+  configuration:
+  # 开启驼峰命名规则
+    map-underscore-to-camel-case: true
+  # 实体类包（开启类别名）--省去些全类名的麻烦
+  type-aliases-package: com.zhbit.miaosha.model.entity
+  # mapper映射文件的路径
+  mapper-locations: mapper/**/*Mapping.xml
+
+logging:
+  level:
+    com.zhbit.miaosha: debug

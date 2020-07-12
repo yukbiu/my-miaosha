@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+
+jwt:
+  # Token密钥
+  secret: test
+
+secure:
+  ignored:
+    urls:   # 无需认证的白名单路径
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/*.js
+      - /**/*.css
+      - /**/*.jpg
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /druid/**
+      - /actuator/**
+      - /sso/**
+      - /home/**
+      - /api/login
+      - /api/register
+

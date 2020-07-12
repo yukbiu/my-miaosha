@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhbit.miaosha.dao.SeckillDao">
+    <resultMap id="SeckillGoodsMap" type="SeckillGoods">
+        <id property="seckillId" column="seckill_id"/>
+        <result property="seckillPrice" column="seckill_price"/>
+        <result property="seckillStock" column="seckill_stock"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="goods" javaType="GmsGoods">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="subtitle" column="subtitle"/>
+            <result property="description" column="description"/>
+            <result property="images" column="images"/>
+            <result property="price" column="price"/>
+            <result property="stock" column="stock"/>
+        </association>
+    </resultMap>
+    <select id="selectStockById" parameterType="long" resultMap="SeckillGoodsMap">
+        SELECT *
+        FROM sec_goods s
+        INNER JOIN gms_goods g
+        ON s.goods_id = g.id AND s.seckill_id= #{seckillId}
+    </select>
+    <update id="freezeStock" keyProperty="seckillId">
+        update sec_goods
+        SET seckill_stock = seckill_stock - #{quantity}
+        WHERE seckill_id = #{seckillId}
+    </update>
+    <!--批量解除秒杀商品库存锁定-->
+    <update id="unfreezeStock">
+        UPDATE sec_goods
+        SET
+        seckill_stock = CASE seckill_id
+        <foreach collection="itemList" item="item">
+            WHEN #{item.goodsId} THEN seckill_stock + #{item.quantity}
+        </foreach>
+        END
+        WHERE
+        seckill_id IN
+        <foreach collection="itemList" item="item" separator="," open="(" close=")">
+            #{item.goodsId}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhbit.miaosha.dao.OmsOrderDao">
+    <insert id="addSeckillOrder" parameterType="OmsOrder">
+        INSERT INTO oms_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">`id`,</if>
+            <if test="memberId!=null">`member_id`,</if>
+            <if test="receiverAddress!=null">`receiver_address`,</if>
+            <if test="receiverPhone!=null">`receiver_phone`,</if>
+            <if test="status!=null">`status`,</if>
+            <if test="totalAmount!=null">`total_amount`,</if>
+            <if test="orderType!=null">`order_type`,</if>
+            <if test="createTime!=null">`create_time`,</if>
+            <if test="updateTime!=null">`update_time`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="memberId!=null">#{memberId},</if>
+            <if test="receiverAddress!=null">#{receiverAddress},</if>
+            <if test="receiverPhone!=null">#{receiverPhone},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="totalAmount!=null">#{totalAmount},</if>
+            <if test="orderType!=null">#{orderType},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <insert id="addOrderItems" parameterType="OmsOrderItem">
+        INSERT INTO oms_order_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">`id`,</if>
+            <if test="orderId!=null">`order_id`,</if>
+            <if test="goodsId!=null">`goods_id`,</if>
+            <if test="goodsName!=null">`goods_name`,</if>
+            <if test="goodsPrice!=null">`goods_price`,</if>
+            <if test="quantity!=null">`quantity`,</if>
+            <if test="createTime!=null">`create_time`,</if>
+            <if test="updateTime!=null">`update_time`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="orderId!=null">#{orderId},</if>
+            <if test="goodsId!=null">#{goodsId},</if>
+            <if test="goodsName!=null">#{goodsName},</if>
+            <if test="goodsPrice!=null">#{goodsPrice},</if>
+            <if test="quantity!=null">#{quantity},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <select id="getOrderById" parameterType="long" resultType="OmsOrder">
+        SELECT *
+        FROM oms_order
+        WHERE id = #{orderId};
+    </select>
+    <update id="cancelOrder" keyProperty="orderId">
+        UPDATE oms_order
+        SET status = #{status}
+        WHERE id = #{orderId}
+    </update>
+    <select id="getOrderItemsByOrderId" parameterType="long" resultType="OmsOrderItem">
+        SELECT *
+        FROM oms_order_item
+        WHERE order_id = #{orderId}
+    </select>
+</mapper>
